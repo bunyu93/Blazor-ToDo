@@ -1,0 +1,48 @@
+﻿@page "/todo"
+
+<h1>Todo!</h1>
+
+@if (_list == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul>
+        <li>
+            <input bind="@MyInput"/>
+            <button class="btn btn-primary" onclick="@(e => AddItem(MyInput))">Add</button>
+        </li>
+        @foreach (var item in _list)
+        {
+            <li>
+                @item.ToString()
+                <button class="btn btn-primary" onclick="@(e => DeleteItem(item))">Delete</button>
+            </li>
+        }
+    </ul>
+}
+
+
+@functions{
+    string MyInput {get; set;}
+    List<string> _list = new List<string>();
+
+    protected override async Task OnInitAsync()
+    {
+        _list.Add("Testing 1");
+        _list.Add("Testing 2");
+        _list.Add("Testing 3");
+        _list.Add("Testing 4");
+    }
+
+    void AddItem(string value)
+    {
+        _list.Add(value);
+    }
+
+    void DeleteItem(string value)
+    {
+        _list.Remove(value);
+    }
+}
